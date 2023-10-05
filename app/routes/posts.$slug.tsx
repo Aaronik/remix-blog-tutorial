@@ -1,5 +1,5 @@
 import { LoaderFunctionArgs, json } from "@remix-run/node"
-import { useLoaderData, useRouteLoaderData } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 import { getPost } from "~/models/post.server"
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
