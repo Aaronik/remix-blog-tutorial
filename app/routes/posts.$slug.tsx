@@ -21,6 +21,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ post });
 };
 
+// Note, this is responsible to both the below and /posts
 export const action = async ({ params }: ActionFunctionArgs) => {
   invariant(params.slug, "Must supply slug");
   await deletePost(params.slug);
