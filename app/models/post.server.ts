@@ -12,3 +12,17 @@ export async function getPosts(): Promise<Array<Post>> {
     orderBy: { updatedAt: "desc" },
   });
 }
+
+export function createPost({
+  slug,
+  title,
+  markdown,
+}: Pick<Post, "slug" | "title" | "markdown">) {
+  return prisma.post.create({
+    data: {
+      slug,
+      title,
+      markdown,
+    },
+  });
+}
