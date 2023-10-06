@@ -11,6 +11,7 @@ export default function Posts() {
   return (
     <main>
       <h1>Posts</h1>
+      <Link to="new">Make a new one</Link>
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>

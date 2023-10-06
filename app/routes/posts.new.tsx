@@ -1,14 +1,10 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useActionData } from "@remix-run/react";
-import { useEffect, useRef } from "react";
 
 import { createPost } from "~/models/post.server";
-import { requireUserId } from "~/session.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const userId = await requireUserId(request);
-
   const formData = await request.formData();
   const slug = formData.get("slug");
   const title = formData.get("title");
