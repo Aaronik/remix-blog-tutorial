@@ -13,7 +13,7 @@ export async function getPosts(): Promise<Array<Post>> {
   });
 }
 
-export function createPost({
+export async function createPost({
   slug,
   title,
   markdown,
@@ -25,4 +25,10 @@ export function createPost({
       markdown,
     },
   });
+}
+
+export async function deletePost(slug: string) {
+  return prisma.post.delete({
+    where: { slug }
+  })
 }

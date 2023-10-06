@@ -1,6 +1,7 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import {
+    Form,
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
@@ -8,7 +9,7 @@ import {
 import { marked } from "marked";
 import invariant from "tiny-invariant";
 
-import { getPost } from "~/models/post.server";
+import { deletePost, getPost } from "~/models/post.server";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.slug, "post not found");
@@ -20,12 +21,21 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ post });
 };
 
+export const action = async ({ params }: ActionFunctionArgs) => {
+  invariant(params.slug, "Must supply slug");
+  await deletePost(params.slug);
+  return redirect("/posts");
+};
+
 export default function PostDetailsPage() {
   const { post } = useLoaderData<typeof loader>();
 
   return (
     <div>
-      <h3 className="text-2xl font-bold">{post.title}</h3>
+      <div className="flex">
+        <h3 className="text-2xl font-bold">{post.title}</h3>
+        <Form method="delete"><button className="text-2xl font-bold" type="submit">X</button></Form>
+      </div>
       <div dangerouslySetInnerHTML={{ __html: marked(post.markdown) }}></div>
       <hr className="my-4" />
     </div>
