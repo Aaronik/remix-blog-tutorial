@@ -3,7 +3,7 @@ import { json, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 
-import { createPost, getPost, updatePost } from "~/models/post.server";
+import { getPost, updatePost } from "~/models/post.server";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
