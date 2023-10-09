@@ -1,5 +1,6 @@
 import { ActionFunctionArgs, json } from "@remix-run/node";
 import { Form, Link, isRouteErrorResponse, useLoaderData, useRouteError } from "@remix-run/react";
+import { useState } from "react";
 import invariant from "tiny-invariant";
 import { deletePost, getPosts } from "~/models/post.server";
 
@@ -26,20 +27,30 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 export default function Posts() {
   const { posts } = useLoaderData<typeof loader>();
 
+  const [open, setOpen] = useState<Boolean>(false);
+
   return (
     <main>
+      <h1 onClick={() => setOpen(!open)}>open: <span>{open.toString()}</span></h1>
       <h1>Posts</h1>
       <Link to="new">Make a new one</Link>
       <ul>
         {posts.map((post) => (
-          <Post post={post}/>
+          <Post post={post} />
         ))}
       </ul>
     </main>
   );
 }
 
-function Post({ post }: {}) {
+// Our custom type utility generic
+type ClientType<TLoader> = ReturnType<typeof useLoaderData<TLoader>>;
+
+// In module
+type PostsObject = ClientType<typeof loader>;
+type Post = PostsObject['posts'][0];
+
+function Post({ post }: { post: Post }) {
   return (
     <li key={post.slug} className="flex">
       <Link
